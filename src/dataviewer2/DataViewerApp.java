@@ -73,7 +73,7 @@ public class DataViewerApp implements DrawListener {
      * Updates the display based on current GUI mode.
      * REFACTORED: Now delegates to DataRenderer instead of drawing directly.
      */
-    private void update() {
+    public void update() {
         // REFACTORED: Check state to determine which view to render
         if (m_viewState.getGuiMode() == DataViewState.GUI_MODE_MAIN_MENU) {
             m_renderer.drawMainMenu(m_window, m_viewState);
