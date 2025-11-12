@@ -1,3 +1,4 @@
+
 package dataviewer2;
 
 import java.io.File;
@@ -63,7 +64,11 @@ public class DataModel {
             System.out.println(String.format("INFO: Loaded %d total data records", m_dataRaw.size()));
             System.out.println(String.format("INFO: Found data for %d countries", m_dataCountries.size()));
             System.out.println(String.format("INFO: Found data for %d states", m_dataStates.size()));
-            System.out.println(String.format("INFO: Found data for %d years [%d, %d]", m_dataYears.size(), m_dataYears.first(), m_dataYears.last()));
+            if (!m_dataYears.isEmpty()) {
+                System.out.println(String.format("INFO: Found data for %d years [%d, %d]", m_dataYears.size(), m_dataYears.first(), m_dataYears.last()));
+            } else {
+                System.out.println("INFO: No year data found.");
+            }
         }
     }
 
@@ -121,20 +126,23 @@ public class DataModel {
                 int month = rec.getMonth();
                 double value = rec.getTemperature();
 
-                // Update min/max values for this month
-                if (value < plotData.m_plotMonthlyMinValue.get(month)) {
-                    plotData.m_plotMonthlyMinValue.put(month, value);
+                // Update min/max values for this month using getters
+                Double currentMin = plotData.getPlotMonthlyMinValue().get(month);
+                Double currentMax = plotData.getPlotMonthlyMaxValue().get(month);
+
+                if (value < currentMin) {
+                    plotData.getPlotMonthlyMinValue().put(month, value);
                 }
-                if (value > plotData.m_plotMonthlyMaxValue.get(month)) {
-                    plotData.m_plotMonthlyMaxValue.put(month, value);
+                if (value > currentMax) {
+                    plotData.getPlotMonthlyMaxValue().put(month, value);
                 }
 
-                // Add the data point to the plot
-                plotData.m_plotData.get(month).put(rec.getYear(), value);
+                // Add the data point to the plot via getter
+                plotData.getPlotData().get(month).put(rec.getYear(), value);
             }
         }
         System.out.println("INFO: Plot data generation complete.");
-        // System.out.println("DEBUG: plot data: " + plotData.m_plotData.toString());
+        // System.out.println("DEBUG: plot data: " + plotData.getPlotData().toString());
         return plotData;
     }
 
