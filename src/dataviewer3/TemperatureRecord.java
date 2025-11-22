@@ -1,4 +1,4 @@
-package dataviewer2;
+package dataviewer3;
 
 /**
  * A data object (POJO) that represents a single parsed row of data 
